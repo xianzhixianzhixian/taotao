@@ -1,8 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
-taotao-common/target
-taotao-manager/target
-taotao-manager-mapper/target
-taotao-manager-pojo/target
-taotao-manager-service/target
-taotao-manager-web/target
+taotao-*/target
+taotao-*/*.iml
