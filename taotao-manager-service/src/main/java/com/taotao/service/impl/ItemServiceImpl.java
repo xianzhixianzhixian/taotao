@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 测试查询某个商品
+ * @author 樊钰丰 2017/12/16
+ */
 @Service
 public class ItemServiceImpl implements ItemService {
 
