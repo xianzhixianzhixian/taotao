@@ -1,0 +1,12 @@
+package com.taotao.service;
+
+import com.taotao.pojo.TbItem;
+
+/**
+ * 测试SSM整合结果
+ * @author KevinSmith on 2017/12/16
+ */
+public interface ItemService {
+
+    public TbItem getItemById(Long id);
+}
