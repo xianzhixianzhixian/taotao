@@ -78,6 +78,7 @@ public class FtpUtil {
 				try {
 					ftp.disconnect();
 				} catch (IOException ioe) {
+					ioe.printStackTrace();
 				}
 			}
 		}
@@ -138,8 +139,8 @@ public class FtpUtil {
 	
 	public static void main(String[] args) {
 		try {  
-	        FileInputStream in=new FileInputStream(new File("D:\\images\\日出.jpg"));
-	        boolean flag = uploadFile("192.168.25.133", 21, "ftpuser", "ftp123456", "/home/ftpuser/www/images","/2017/12/20", "日出.jpg", in);
+	        FileInputStream in=new FileInputStream(new File("E:\\images\\日出.jpg"));
+	        boolean flag = uploadFile("192.168.56.101", 21, "ftpuser", "Fyfxyq16@6", "/home/ftpuser/www/images","/2017/12/20", "日出.jpg", in);
 	        System.out.println(flag);  
 	    } catch (FileNotFoundException e) {  
 	        e.printStackTrace();  
