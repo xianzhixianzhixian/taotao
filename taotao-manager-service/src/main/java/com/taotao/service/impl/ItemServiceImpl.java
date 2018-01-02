@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.common.utils.IDUtils;
+import com.taotao.mapper.TbItemDescMapper;
+import com.taotao.pojo.TbItemDesc;
 import com.taotao.service.ItemService;
 import com.taotao.mapper.TbItemMapper;
 import com.taotao.pojo.TbItem;
@@ -24,6 +26,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private TbItemMapper tbItemMapper;
+
+    @Autowired
+    private TbItemDescMapper tbItemDescMapper;
 
     @Override
     public TbItem getItemById(Long id) {
@@ -65,8 +70,14 @@ public class ItemServiceImpl implements ItemService {
         return easyUIDataGridResult;
     }
 
+    /**
+     * 向数据库中插入商品信息
+     * @param item
+     * @param description
+     * @return
+     */
     @Override
-    public TaotaoResult createItem(TbItem item) {
+    public TaotaoResult createItem(TbItem item,String description) throws Exception{
         //item补全
         //生成商品ID
         Long itemId= IDUtils.genItemId();
@@ -77,6 +88,26 @@ public class ItemServiceImpl implements ItemService {
         item.setUpdated(new Date());
         //插入到数据库
         tbItemMapper.insert(item);
+        //添加商品描述信息
+        TaotaoResult result=insertItemDescription(itemId,description);
+        if(result.getStatus()!=200){
+            //抛异常时，spring会自动回滚数据库事务
+            throw new Exception();
+        }
+        return TaotaoResult.ok();
+    }
+
+    /**
+     *
+     * @param description
+     */
+    private TaotaoResult insertItemDescription(Long itemId,String description){
+        TbItemDesc itemDesc=new TbItemDesc();
+        itemDesc.setItemId(itemId);
+        itemDesc.setItemDesc(description);
+        itemDesc.setCreated(new Date());
+        itemDesc.setUpdated(new Date());
+        tbItemDescMapper.insert(itemDesc);
         return TaotaoResult.ok();
     }
 }
