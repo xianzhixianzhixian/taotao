@@ -21,9 +21,15 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
+    /*
+        @PathVariable将/item/{itemId}中的itemId映射到Long itemId中的itemId
+        通过 @PathVariable 可以将 URL 中占位符参数绑定到控制器处理方法的入
+        参中：URL 中的 {xxx} 占位符可以通过@PathVariable("xxx") 绑定到操作
+        方法的入参中
+     */
     @RequestMapping("/item/{itemId}")
-    @ResponseBody //这个注解是返回JSON数据时用到的
-    public TbItem getItemById(@PathVariable Long itemId){
+    @ResponseBody
+    public TbItem getItemById(@PathVariable("itemId") Long itemId){
         TbItem tbItem=itemService.getItemById(itemId);
         return tbItem;
     }
@@ -37,8 +43,8 @@ public class ItemController {
 
     @RequestMapping(value="/item/save",method = RequestMethod.POST)
     @ResponseBody
-    private TaotaoResult createItem(TbItem item,String desc) throws Exception{
-        TaotaoResult result=itemService.createItem(item,desc);
+    private TaotaoResult createItem(TbItem item,String desc,String itemParams) throws Exception{
+        TaotaoResult result=itemService.createItem(item,desc,itemParams);
         return result;
     }
 }

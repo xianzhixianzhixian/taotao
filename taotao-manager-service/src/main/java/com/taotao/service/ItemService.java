@@ -31,5 +31,5 @@ public interface ItemService {
      * @param description
      * @return
      */
-    TaotaoResult createItem(TbItem item,String description) throws Exception;
+    TaotaoResult createItem(TbItem item,String description,String itemParam) throws Exception;
 }

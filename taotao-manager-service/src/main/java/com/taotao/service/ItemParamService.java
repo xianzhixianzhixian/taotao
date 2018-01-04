@@ -9,6 +9,6 @@ import com.taotao.pojo.TbItemParam;
  */
 public interface ItemParamService {
 
-	TaotaoResult getItemParamByCid(long cid);
+	TaotaoResult getItemParamByCid(Long cid);
 	TaotaoResult insertItemParam(TbItemParam itemParam);
 }
