@@ -1,0 +1,78 @@
+<web-app version="3.1" metadata-complete="true"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+            http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- 加载spring容器 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/applicationContext-*.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- 解决post乱码 -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <!-- /* 拦截非静态资源请求 -->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- springmvc的前端控制器 -->
+    <servlet>
+        <servlet-name>taotao-portal</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- contextConfigLocation不是必须的， 如果不配置contextConfigLocation， springmvc的配置文件默认在：WEB-INF/servlet的name+"-servlet.xml" -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/springmvc.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>taotao-portal</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+<!--
+/和/*的区别：
+< url-pattern > / </ url-pattern >   不会匹配到*.jsp，即：*.jsp不会进入spring的 DispatcherServlet类 。
+< url-pattern > /* </ url-pattern > 会匹配*.jsp，会出现返回jsp视图时再次进入spring的DispatcherServlet 类，导致找不到对应的controller所以报404错。
+
+总之，关于web.xml的url映射的小知识:
+< url-pattern>/</url-pattern>  会匹配到/login这样的路径型url，不会匹配到模式为*.jsp这样的后缀型url
+< url-pattern>/*</url-pattern> 会匹配所有url：路径型的和后缀型的url(包括/login,*.jsp,*.js和*.html等)
+
+1. 首先/这个是表示默认的路径，及表示：当没有找到可以匹配的URL就用这个URL去匹配。
+2. 在springmvc中可以配置多个DispatcherServlet，比如： 配置多个DispatcherServlet有/和/*，先匹配的是/*这个
+
+3. 当配置相同的情况下，DispathcherServlet配置成/和/*的区别
+<一>/：使用/配置路径，直接访问到jsp，不经springDispatcherServlet
+<二> /*：配置/*路径，不能访问到多视图的jsp
+
+当我在客户端调用URL：/user/list然后返回user.jsp视图，当配置的是/：DispathcherServlet拿到这个请求然后返回对应的controller，
+然后依据Dispather Type为Forward类型转发到user.jsp视图，即就是请求user.jsp视图(/user/user.jsp)，此时Dispather没有拦截/user/user.jsp，
+因为此时你配置的是默认的/，就顺利的交给ModleAndView去处理显示了。
+当配置的是/*：DispathcherServlet拿到这个请求然后返回对应的controller，然后通过Dispather Type通过Forward转发到user.jsp视图，
+即就是请求user.jsp视图(/user/user.jsp)，此时Dispather已经拦截/user/user.jsp，Dispatcher会把他当作Controller去匹配，没有匹配到就会报404错误。
+
+结论：在配置视图的时候尽量用/这种方式。
+-->
