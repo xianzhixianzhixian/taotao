@@ -13,6 +13,6 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-<!-- 扫描包加载Service实现类 -->
+	<!-- 扫描包加载Service实现类 -->
 	<context:component-scan base-package="com.taotao.rest.service"/>
 </beans>

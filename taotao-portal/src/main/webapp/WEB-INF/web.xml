@@ -1,8 +1,5 @@
-<web-app version="3.1" metadata-complete="true"
-         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-            http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -51,7 +48,7 @@
         <!-- 伪静态化，SEO搜索引擎优化 -->
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
-</web-app>
+</project>
 
 <!--
 /和/*的区别：

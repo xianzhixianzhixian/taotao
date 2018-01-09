@@ -1,8 +1,5 @@
-<web-app version="3.1" metadata-complete="true"
-         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-            http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -37,7 +34,7 @@
     </filter-mapping>
     <!-- springmvc的前端控制器 -->
     <servlet>
-        <servlet-name>taotao-portal</servlet-name>
+        <servlet-name>taotao-rest</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <!-- contextConfigLocation不是必须的， 如果不配置contextConfigLocation， springmvc的配置文件默认在：WEB-INF/servlet的name+"-servlet.xml" -->
         <init-param>
@@ -47,10 +44,10 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>taotao-portal</servlet-name>
+        <servlet-name>taotao-rest</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
-</web-app>
+</project>
 
 <!--
 /和/*的区别：
