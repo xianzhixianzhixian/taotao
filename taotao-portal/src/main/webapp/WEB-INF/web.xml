@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
 
+    <display-name>taotao-portal</display-name>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
     <!-- 加载spring容器 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -16,23 +16,17 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
     <!-- 解决post乱码 -->
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
+            <param-value>utf-8</param-value>
         </init-param>
     </filter>
     <filter-mapping>
         <filter-name>CharacterEncodingFilter</filter-name>
-        <!-- /* 拦截非静态资源请求 -->
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <!-- springmvc的前端控制器 -->
@@ -48,7 +42,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>taotao-portal</servlet-name>
-        <!-- 伪静态化，SEO搜索引擎优化 -->
+        <!-- 伪静态化 -->
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 </web-app>
