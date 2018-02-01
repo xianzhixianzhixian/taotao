@@ -55,16 +55,12 @@
         <!-- 配置插件 -->
         <plugins>
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
                 <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
-                    <httpConnector>
-                        <port>8081</port>
-                    </httpConnector>
-                    <webApp>
-                        <contextPath>/</contextPath>
-                    </webApp>
+                    <port>8081</port>
+                    <path>/</path>
                 </configuration>
             </plugin>
         </plugins>
