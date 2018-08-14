@@ -103,6 +103,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.taotao.pojo.TbContentCategory" >
+    <!-- 在插入之后获取并返回主键值 -->
   	<selectKey keyProperty="id" resultType="long" order="AFTER">
   		SELECT LAST_INSERT_ID()
   	</selectKey>
@@ -114,6 +115,7 @@
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.taotao.pojo.TbContentCategory" >
+    <!-- 在插入之后获取并返回主键值 -->
     <selectKey keyProperty="id" resultType="long" order="AFTER">
   		SELECT LAST_INSERT_ID()
   	</selectKey>
