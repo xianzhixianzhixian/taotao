@@ -16,7 +16,7 @@ public interface ContentCategoryService {
      * @param parentId
      * @return
      */
-    List<EasyUITreeNode> getCategoryList(long parentId);
+    List<EasyUITreeNode> getCategoryList(Long parentId);
 
     /**
      * 添加节点数据
@@ -24,5 +24,21 @@ public interface ContentCategoryService {
      * @param name
      * @return
      */
-    TaotaoResult insertContentCategory(long parentId, String name);
+    TaotaoResult insertContentCategory(Long parentId, String name);
+
+    /**
+     * 根据id删除节点
+     * @param parentId
+     * @param id
+     * @return
+     */
+    TaotaoResult deleteContentCategory(Long parentId, Long id);
+
+    /**
+     * 根据id重命名节点
+     * @param id
+     * @param name
+     * @return
+     */
+    TaotaoResult updateContentCategory(Long id, String name);
 }

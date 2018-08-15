@@ -27,4 +27,11 @@ public interface TbContentCategoryMapper {
     int updateByPrimaryKeySelective(TbContentCategory record);
 
     int updateByPrimaryKey(TbContentCategory record);
+
+    /**
+     * 获取子节点个数
+     * @param parentId
+     * @return
+     */
+    int selectChildrenCount(Long parentId);
 }
