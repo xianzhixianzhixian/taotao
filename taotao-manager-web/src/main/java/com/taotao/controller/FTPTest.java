@@ -18,9 +18,9 @@ public class FTPTest {
             ftpClient.login("ftpuser","ftp123456");
 //            ftpClient.set
             //读取本地文件
-            FileInputStream fileInputStream=new FileInputStream(new File("E:\\Images\\日出.jpg"));
+            FileInputStream fileInputStream=new FileInputStream(new File("/Users/xianzhixianzhixian/Desktop/0.png"));
            //设置上传的路径
-            ftpClient.changeWorkingDirectory("/home/ftpuser/6.jpg");
+            ftpClient.changeWorkingDirectory("/home/ftpuser/images/6.jpg");
             //修改上传文件的格式
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             //上传文件，第一个参数：服务器端文档名，第二个参数：要上传的文件的inputStream
