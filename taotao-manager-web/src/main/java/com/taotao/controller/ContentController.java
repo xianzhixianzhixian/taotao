@@ -18,13 +18,13 @@ import java.util.List;
  * @author xianzhixianzhixian on 20180816
  */
 @Controller
-@RequestMapping("/content/query")
+@RequestMapping("/content")
 public class ContentController {
 
     @Autowired
     private ContentService contentService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/query/list", method = RequestMethod.GET)
     @ResponseBody
     public EasyUIDataGridResult listContents(@RequestParam(value = "categoryId", defaultValue = "0") Long categoryId){
         List<TbContent> contentList = contentService.listContent(categoryId);
@@ -32,5 +32,11 @@ public class ContentController {
         result.setRows(contentList);
         result.setTotal((long) contentList.size());
         return result;
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult saveContent(TbContent content){
+        return contentService.insertContent(content);
     }
 }
