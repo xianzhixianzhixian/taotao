@@ -79,9 +79,10 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
         for(Long childId : idList){
             category.setId(childId);
             category.setStatus(2);
-            count += contentCategoryMapper.updateByPrimaryKeySelective(category);
+            //count += contentCategoryMapper.updateByPrimaryKeySelective(category);
+            count += contentCategoryMapper.deleteByPrimaryKey(childId);
         }
-        //获取该节点的parentId
+        //获取该节点的parentId,若其没有子节点则其为子节点
         category = contentCategoryMapper.selectByPrimaryKey(id);
         int childrenCount = contentCategoryMapper.selectChildrenCount(category.getParentId());
         if (childrenCount == 0){

@@ -1,5 +1,6 @@
 package com.taotao.service.impl;
 
+import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.mapper.TbContentMapper;
 import com.taotao.pojo.TbContent;
 import com.taotao.pojo.TbContentExample;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,5 +32,15 @@ public class ContenServiceImpl implements ContentService {
             contentList = new ArrayList<>();
         }
         return contentList;
+    }
+
+    @Override
+    public TaotaoResult insertContent(TbContent content){
+        //补全pojo内容
+        Date date = new Date();
+        content.setCreated(date);
+        content.setUpdated(date);
+        contentMapper.insertSelective(content);
+        return TaotaoResult.ok();
     }
 }
