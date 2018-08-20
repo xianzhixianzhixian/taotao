@@ -1,6 +1,7 @@
 package com.taotao.service.impl;
 
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.StrUtil;
 import com.taotao.mapper.TbContentMapper;
 import com.taotao.pojo.TbContent;
 import com.taotao.pojo.TbContentExample;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -42,5 +44,28 @@ public class ContenServiceImpl implements ContentService {
         content.setUpdated(date);
         contentMapper.insertSelective(content);
         return TaotaoResult.ok();
+    }
+
+    @Override
+    public TaotaoResult deleteContent(String ids) {
+
+        int count = 0;
+        List<Long> idList = StrUtil.StringToLongArray(ids,",");
+        for(Long id : idList){
+            contentMapper.deleteByPrimaryKey(id);
+        }
+        if(count == 0){
+            return TaotaoResult.build(500,"删除错误");
+        }
+        return TaotaoResult.ok(count);
+    }
+
+    @Override
+    public TaotaoResult editContent(TbContent content) {
+        int count = contentMapper.updateByPrimaryKeySelective(content);
+        if(count == 0){
+            return TaotaoResult.build(500,"删除错误");
+        }
+        return TaotaoResult.ok(count);
     }
 }

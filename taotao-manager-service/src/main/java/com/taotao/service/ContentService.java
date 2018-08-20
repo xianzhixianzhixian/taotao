@@ -19,9 +19,23 @@ public interface ContentService {
     List<TbContent> listContent(Long categoryId);
 
     /**
-     *
+     * 添加内容分类具体信息
      * @param content
      * @return
      */
     TaotaoResult insertContent(TbContent content);
+
+    /**
+     * 根据id删除内容分类包含的具体信息
+     * @param ids
+     * @return
+     */
+    TaotaoResult deleteContent(String ids);
+
+    /**
+     * 修改content内容
+     * @param content
+     * @return
+     */
+    TaotaoResult editContent(TbContent content);
 }

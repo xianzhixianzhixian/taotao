@@ -45,4 +45,10 @@
         <!-- 伪静态化 -->
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
+    <!-- 解决jackson包引入使用.html作为请求url报406错误的问题 -->
+    <servlet-mapping>
+        <servlet-name>taotao-portal</servlet-name>
+        <!-- 伪静态化 -->
+        <url-pattern>*.action</url-pattern>
+    </servlet-mapping>
 </web-app>

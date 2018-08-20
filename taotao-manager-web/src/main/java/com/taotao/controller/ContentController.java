@@ -39,4 +39,16 @@ public class ContentController {
     public TaotaoResult saveContent(TbContent content){
         return contentService.insertContent(content);
     }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult editContent(TbContent content){
+        return contentService.editContent(content);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult deleteContent(String ids){
+        return contentService.deleteContent(ids);
+    }
 }
