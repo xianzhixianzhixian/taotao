@@ -35,14 +35,14 @@
 		<property name="blockWhenExhausted" value="false" />
 	</bean>
 
-	<!-- Jedis客户端单机版
+	<!-- Jedis客户端单机版 -->
 	<bean id="redisClient" class="redis.clients.jedis.JedisPool">
 		<constructor-arg name="host" value="192.168.56.101"></constructor-arg>
 		<constructor-arg name="port" value="6379"></constructor-arg>
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
-	</bean>-->
+	</bean>
 
-	<!-- Jedis集群 -->
+	<!-- Jedis集群
 	<bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
 		<constructor-arg name="nodes">
 			<set>
@@ -73,5 +73,5 @@
 			</set>
 		</constructor-arg>
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
-	</bean>
+	</bean>-->
 </beans>
