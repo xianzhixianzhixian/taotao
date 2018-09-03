@@ -1,13 +1,17 @@
 package com.taotao.rest.service.impl;
 
+import com.taotao.common.utils.JsonUtils;
+import com.taotao.common.utils.StrUtil;
 import com.taotao.mapper.TbItemCatMapper;
 import com.taotao.pojo.TbItemCat;
 import com.taotao.pojo.TbItemCatExample.Criteria;
 import com.taotao.pojo.TbItemCatExample;
+import com.taotao.rest.dao.JedisClientSingle;
 import com.taotao.rest.pojo.CatNode;
 import com.taotao.rest.pojo.CatResult;
 import com.taotao.rest.service.ItemCatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,11 +25,35 @@ import java.util.List;
 public class ItemCatServiceImpl implements ItemCatService{
 
     @Autowired
+    private JedisClientSingle jedisClientSingles;
+    @Value("${ITEM_CAT_KEY}")
+    private String ITEM_CAT_KEY;
+
+    @Autowired
     private TbItemCatMapper itemCatMapper;
     @Override
     public CatResult getCatItemList() {
+
+        try {
+            String str = jedisClientSingles.get(ITEM_CAT_KEY);
+            if (!StrUtil.testTrimEmpty(str)) {
+                CatResult catResult = new CatResult();
+                List cartList = JsonUtils.jsonToList(str, Object.class);
+                catResult.setData(cartList);
+                return catResult;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         CatResult catResult=new CatResult();
-        catResult.setData(getCatList(0L));
+        List cartList = getCatList(0L);
+        catResult.setData(cartList);
+
+        try{
+            jedisClientSingles.set(ITEM_CAT_KEY, JsonUtils.objectToJson(cartList));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return catResult;
     }
 
@@ -34,7 +62,7 @@ public class ItemCatServiceImpl implements ItemCatService{
      * @param parentId
      * @return
      */
-    private List<?> getCatList(Long parentId){
+    private List getCatList(Long parentId){
         //创建查询条件
         TbItemCatExample example=new TbItemCatExample();
         Criteria criteria=example.createCriteria();

@@ -59,4 +59,11 @@ public interface JedisClient {
      * @return
      */
     Long ttl(String key);
+
+    /**
+     * 根据key删除对应的value
+     * @param key
+     * @return
+     */
+    Long del(String key);
 }
