@@ -66,4 +66,12 @@ public interface JedisClient {
      * @return
      */
     Long del(String key);
+
+    /**
+     * 删除hash中的值
+     * @param hkey
+     * @param key
+     * @return
+     */
+    Long hdel(String hkey,String key);
 }

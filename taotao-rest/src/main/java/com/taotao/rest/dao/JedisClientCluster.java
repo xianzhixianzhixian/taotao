@@ -62,4 +62,10 @@ public class JedisClientCluster implements JedisClient {
         Long result = jedisCluster.del(key);
         return result;
     }
+
+    @Override
+    public Long hdel(String hkey, String key) {
+        Long result = jedisCluster.hdel(hkey,key);
+        return result;
+    }
 }
