@@ -17,6 +17,7 @@
         <module>taotao-manager-web</module>
         <module>taotao-rest</module>
         <module>taotao-portal</module>
+        <module>taotao-search</module>
     </modules>
     <build>
         <plugins>
