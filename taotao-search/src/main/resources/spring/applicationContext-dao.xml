@@ -17,8 +17,7 @@
 	<!-- 加载配置文件 -->
 	<context:property-placeholder location="classpath:resource/*.properties" />
 	<!-- 数据库连接池 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		destroy-method="close">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
@@ -34,5 +33,14 @@
 	<!-- 配置扫描包，加载mapper代理对象 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.taotao.mapper,com.taotao.search.mapper"/>
+	</bean>
+	<!-- slorclient的bean对象单机版 -->
+	<bean id="solrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+		<constructor-arg index="0" value="${solr.url}" />
+		<property name="parser">
+			<bean class="org.apache.solr.client.solrj.impl.XMLResponseParser" />
+		</property>
+		<property name="connectionTimeout" value="${solr.connection.timeout}" />
+		<property name="soTimeout" value="${solr.socket.timeout}" />
 	</bean>
 </beans>
