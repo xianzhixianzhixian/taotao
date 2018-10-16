@@ -45,8 +45,20 @@ public class StrUtil {
      * @param str
      * @return
      */
-    public  static Boolean testTrimEmpty(String str){
+    public static Boolean testTrimEmpty(String str){
         if(str == null || str.trim().length() == 0) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * 判断list的长度是否为0或list是否为null
+     * @param list
+     * @return
+     */
+    public static Boolean listNull(List list){
+        if( list == null || list.size() == 0){
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
