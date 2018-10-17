@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * solr查询服务的controller
  * @author: xianzhixianzhixian on 2018/10/16
  */
 @Controller
