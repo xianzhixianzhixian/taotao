@@ -5,6 +5,7 @@ import com.taotao.common.utils.HttpClientUtil;
 import com.taotao.portal.pojo.SearchResult;
 import com.taotao.portal.service.SearchService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * @author: xianzhixianzhixian on 2018/10/17
  */
+@Service
 public class SearchServiceImpl implements SearchService {
 
     @Value("${SEARCH_BASE_URL}")

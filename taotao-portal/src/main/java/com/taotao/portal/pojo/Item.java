@@ -70,4 +70,12 @@ public class Item {
         this.item_des = item_des;
     }
 
+    public String[] getImages() {
+        if (image!=null && image.trim().length()!=0){
+            String[] images = image.split(",");
+            return images;
+        }
+        return null;
+    }
+
 }
