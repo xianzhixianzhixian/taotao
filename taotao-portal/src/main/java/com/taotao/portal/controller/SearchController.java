@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author: xianzhixianzhixian on 2018/10/18
  */
 @Controller
-@RequestMapping("")
 public class SearchController {
 
     @Autowired
