@@ -5,13 +5,18 @@ import com.taotao.common.utils.JsonUtils;
 import com.taotao.common.utils.StrUtil;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
+import com.taotao.mapper.TbItemParamItemMapper;
 import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemDesc;
+import com.taotao.pojo.TbItemParamItem;
+import com.taotao.pojo.TbItemParamItemExample;
 import com.taotao.rest.dao.JedisClientSingle;
 import com.taotao.rest.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author: xianzhixianzhixian on 2018/10/22
@@ -23,6 +28,8 @@ public class ItemServiceImpl implements ItemService {
     private TbItemMapper tbItemMapper;
     @Autowired
     private TbItemDescMapper tbItemDescMapper;
+    @Autowired
+    private TbItemParamItemMapper tbItemParamItemMapper;
     @Autowired
     private JedisClientSingle jedisClientSingle;
     @Value("${REDIS_ITEM_KEY}")
@@ -86,5 +93,41 @@ public class ItemServiceImpl implements ItemService {
             e.printStackTrace();
         }
         return TaotaoResult.ok(itemDesc);
+    }
+
+    @Override
+    public TaotaoResult searchItemParamInfo(Long itemId) {
+        try {
+            //从缓存中取商品id对应的信息
+            String json = jedisClientSingle.get(REDIS_ITEM_KEY + ":" + itemId + ":param");
+            if(!StrUtil.testTrimEmpty(json)){
+                TbItemParamItem itemParamItem = JsonUtils.jsonToPojo(json, TbItemParamItem.class);
+                return TaotaoResult.ok(itemParamItem);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        TbItemParamItemExample example = new TbItemParamItemExample();
+        TbItemParamItemExample.Criteria criteria = example.createCriteria();
+        criteria.andItemIdEqualTo(itemId);
+        List<TbItemParamItem> itemParamItemList = tbItemParamItemMapper.selectByExample(example);
+        if(!StrUtil.listNull(itemParamItemList)) {
+            try {
+                //把商品信息写入缓存
+                //设置key的有效期,hash不支持设置过期时间
+                //使用key的命名方式
+                //基本信息： redis_item_key:商品id:base json
+                //描述： redis_item_key:商品id:desc json
+                //规格参数：redis_item_key:商品id:param json
+                jedisClientSingle.set(REDIS_ITEM_KEY + ":" + itemId + ":param", JsonUtils.objectToJson(itemParamItemList.get(0)));
+                jedisClientSingle.expire(REDIS_ITEM_KEY + ":" + itemId + ":param", Integer.valueOf(REDIS_ITEM_EXPIRE));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return TaotaoResult.ok(itemParamItemList.get(0));
+        }
+        //自己定义的错误码400，和http错误码区分开，两者是不一样的东西
+        return TaotaoResult.build(400, "无此商品信息");
     }
 }
