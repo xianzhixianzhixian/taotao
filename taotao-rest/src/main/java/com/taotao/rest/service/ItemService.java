@@ -14,4 +14,11 @@ public interface ItemService {
      * @return
      */
     TaotaoResult searchItemBaseInfo(Long itemId);
+
+    /**
+     * 查询商品描述信息
+     * @param itemId
+     * @return
+     */
+    TaotaoResult searchItemDescInfo(Long itemId);
 }
