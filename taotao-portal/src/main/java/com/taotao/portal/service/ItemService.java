@@ -1,7 +1,5 @@
 package com.taotao.portal.service;
 
-import com.taotao.pojo.TbItemDesc;
-import com.taotao.pojo.TbItemParamItem;
 import com.taotao.portal.pojo.ItemInfo;
 
 /**
@@ -22,12 +20,12 @@ public interface ItemService {
      * @param itemId
      * @return
      */
-    TbItemDesc searchItemDescInfo(Long itemId);
+    String searchItemDescInfo(Long itemId);
 
     /**
      * 获取商品参数信息
      * @param itemId
      * @return
      */
-    TbItemParamItem searchItemParamInfo(Long itemId);
+    String searchItemParamInfo(Long itemId);
 }

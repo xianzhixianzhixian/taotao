@@ -14,13 +14,7 @@ import com.taotao.pojo.TbItemParamItemExample.Criteria;
 import com.taotao.service.ItemParamItemService;
 
 /**
- * 展示商品规格参数
- * <p>Title: ItemParamItemServiceImpl</p>
- * <p>Description: </p>
- * <p>Company: www.itcast.com</p> 
- * @author	入云龙
- * @date	2015年9月5日下午4:08:50
- * @version 1.0
+ * @author xianzhixianzhixian 2018/10/24
  */
 @Service
 public class ItemParamItemServiceImpl implements ItemParamItemService {

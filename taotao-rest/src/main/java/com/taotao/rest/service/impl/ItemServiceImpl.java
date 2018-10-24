@@ -99,6 +99,7 @@ public class ItemServiceImpl implements ItemService {
     public TaotaoResult searchItemParamInfo(Long itemId) {
         try {
             //从缓存中取商品id对应的信息
+
             String json = jedisClientSingle.get(REDIS_ITEM_KEY + ":" + itemId + ":param");
             if(!StrUtil.testTrimEmpty(json)){
                 TbItemParamItem itemParamItem = JsonUtils.jsonToPojo(json, TbItemParamItem.class);

@@ -5,6 +5,7 @@ import com.taotao.pojo.TbItemDesc;
 import com.taotao.portal.pojo.ItemInfo;
 import com.taotao.portal.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +30,15 @@ public class ItemController {
         return "item";
     }
 
-    @RequestMapping(value = "/desc/{itemId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/item/desc/{itemId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE+";charset=utf-8")
     @ResponseBody
-    public TaotaoResult searchItemDescInfo(@PathVariable("itemId") Long itemId) {
-
-        return null;
+    public String searchItemDescInfo(@PathVariable("itemId") Long itemId) {
+        return itemService.searchItemDescInfo(itemId);
     }
 
-    @RequestMapping(value = "/param/{itemId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/item/param/{itemId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE+";charset=utf-8")
     @ResponseBody
-    public TaotaoResult searchItemParamInfo(@PathVariable("itemId") Long itemId) {
-        return null;
+    public String searchItemParamInfo(@PathVariable("itemId") Long itemId) {
+        return itemService.searchItemParamInfo(itemId);
     }
 }
