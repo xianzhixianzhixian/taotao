@@ -42,9 +42,9 @@
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
 	</bean>
     <!-- Jedis客户端单机版dao -->
-    <bean id="jedisClientSingleDao" class="com.taotao.rest.dao.JedisClientSingle"></bean>
+    <bean id="jedisClientSingleDao" class="com.taotao.rest.dao.impl.JedisClientSingle"></bean>
     <!-- Jedis客户端集群版 -->
-    <!--<bean id="jedisClientClusterDao" class="com.taotao.rest.dao.JedisClientCluster"></bean>-->
+    <!--<bean id="jedisClientClusterDao" class="com.taotao.rest.dao.impl.JedisClientCluster"></bean>-->
 	<!-- Jedis集群
 	<bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
 		<constructor-arg name="nodes">

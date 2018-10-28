@@ -13,4 +13,6 @@ public interface RedisService {
      * @return
      */
     TaotaoResult syncContent(Long contentCid);
+
+    //TODO商品信息修改后的缓存同步问题
 }

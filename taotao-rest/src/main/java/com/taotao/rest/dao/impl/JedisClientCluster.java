@@ -1,5 +1,6 @@
-package com.taotao.rest.dao;
+package com.taotao.rest.dao.impl;
 
+import com.taotao.rest.dao.JedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;

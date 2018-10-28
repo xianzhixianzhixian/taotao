@@ -6,7 +6,7 @@ import com.taotao.mapper.TbItemCatMapper;
 import com.taotao.pojo.TbItemCat;
 import com.taotao.pojo.TbItemCatExample.Criteria;
 import com.taotao.pojo.TbItemCatExample;
-import com.taotao.rest.dao.JedisClientSingle;
+import com.taotao.rest.dao.impl.JedisClientSingle;
 import com.taotao.rest.pojo.CatNode;
 import com.taotao.rest.pojo.CatResult;
 import com.taotao.rest.service.ItemCatService;
