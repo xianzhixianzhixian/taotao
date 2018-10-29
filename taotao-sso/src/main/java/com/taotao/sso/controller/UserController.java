@@ -73,4 +73,16 @@ public class UserController {
         }
         return result;
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult userLogin(String username,String password){
+        TaotaoResult result = null;
+        try{
+            result = userService.userLogin(username,password);
+        }catch (Exception e){
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        return result;
+    }
 }

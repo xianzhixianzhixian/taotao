@@ -23,4 +23,12 @@ public interface UserService {
      * @return
      */
     TaotaoResult createUser(TbUser user);
+
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @return
+     */
+    TaotaoResult userLogin(String username,String password);
 }
