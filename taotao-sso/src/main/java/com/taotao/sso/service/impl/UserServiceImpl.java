@@ -91,4 +91,16 @@ public class UserServiceImpl implements UserService {
         //返回token
         return TaotaoResult.ok(token);
     }
+
+    @Override
+    public TaotaoResult getUserByToken(String token) {
+        String json = jedisClient.get(token);
+        if (StrUtil.testTrimEmpty(json)){
+            return TaotaoResult.build(400, "本次登录已过期，请重新登录");
+        }
+        //更新过期时间
+        jedisClient.expire(RESID_USER_SESSION+":"+token, SSO_SESSION_EXPIRE);
+        //返回用户信息
+        return TaotaoResult.ok(json);
+    }
 }

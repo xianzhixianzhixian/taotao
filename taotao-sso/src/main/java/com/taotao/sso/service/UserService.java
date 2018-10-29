@@ -31,4 +31,11 @@ public interface UserService {
      * @return
      */
     TaotaoResult userLogin(String username,String password);
+
+    /**
+     * 通过token获取用户信息
+     * @param token
+     * @return
+     */
+    TaotaoResult getUserByToken(String token);
 }

@@ -85,4 +85,23 @@ public class UserController {
         }
         return result;
     }
+
+    @RequestMapping(value = "/token/{token}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getUserByToken(@PathVariable("token") String token, String callback){
+        TaotaoResult result = null;
+        try{
+            result = userService.getUserByToken(token);
+        }catch (Exception e){
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        //判断是否为jsonp调用
+        if (null != callback){
+            MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(result);
+            mappingJacksonValue.setJsonpFunction(callback);
+            return mappingJacksonValue;
+        }else {
+            return result;
+        }
+    }
 }
