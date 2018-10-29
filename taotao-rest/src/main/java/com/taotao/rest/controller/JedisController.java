@@ -25,4 +25,11 @@ public class JedisController {
         TaotaoResult result = redisService.syncContent(contentCid);
         return result;
     }
+
+    @RequestMapping("/item/{itemId}")
+    @ResponseBody
+    public TaotaoResult itemCacheSync(@PathVariable("itemIs") Long itemId){
+        TaotaoResult result = redisService.syncItem(itemId);
+        return result;
+    }
 }

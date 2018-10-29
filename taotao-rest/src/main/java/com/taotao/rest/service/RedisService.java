@@ -14,5 +14,10 @@ public interface RedisService {
      */
     TaotaoResult syncContent(Long contentCid);
 
-    //TODO商品信息修改后的缓存同步问题
+    /**
+     * 同步商品信息redis缓存
+     * @param itemCid
+     * @return
+     */
+    TaotaoResult syncItem(Long itemCid);
 }

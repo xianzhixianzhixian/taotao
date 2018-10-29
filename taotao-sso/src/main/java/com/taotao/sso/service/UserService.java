@@ -1,6 +1,7 @@
 package com.taotao.sso.service;
 
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.pojo.TbUser;
 
 /**
  * 用户管理service
@@ -15,4 +16,11 @@ public interface UserService {
      * @return
      */
     TaotaoResult checkData(String content, Integer type);
+
+    /**
+     * 注册用户
+     * @param user
+     * @return
+     */
+    TaotaoResult createUser(TbUser user);
 }
