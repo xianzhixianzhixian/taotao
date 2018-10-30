@@ -22,7 +22,6 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 
     @Autowired
     private TbContentCategoryMapper contentCategoryMapper;
-    private List<Long> idList; //子节点id列表
 
     @Override
     public List<EasyUITreeNode> getCategoryList(Long parentId) {
@@ -30,6 +29,7 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
         TbContentCategoryExample example = new TbContentCategoryExample();
         TbContentCategoryExample.Criteria criteria = example.createCriteria();
         criteria.andParentIdEqualTo(parentId);
+        criteria.andStatusEqualTo(1);
         List<TbContentCategory> list = contentCategoryMapper.selectByExample(example);
         List<EasyUITreeNode> resultList = new ArrayList<>();
         for(TbContentCategory category : list){
@@ -44,7 +44,7 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
     }
 
     @Override
-    public TaotaoResult insertContentCategory(Long parentId, String name) {
+    public TaotaoResult insertContentCategory(Long parentId, String name) throws Exception {
         //创建一个pojo
         TbContentCategory contentCategory = new TbContentCategory();
         //需要用到mybatis主键返回
@@ -67,20 +67,20 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
     }
 
     @Override
-    public TaotaoResult deleteContentCategory(Long parentId, Long id) {
+    public TaotaoResult deleteContentCategory(Long parentId, Long id) throws Exception {
         //获取所有子节点id
         int count = 0;
-        idList = new ArrayList<>();
-        idList = listAllChildrenId(id); //获取所有子节点id列表
-        idList.add(id);
+        List<Long> idList = listAllChildrenId(id); //获取所有子节点id列表
+        //idList.add(id); //加入该节点本身，此处有一个逻辑错误，如果删除了该节点，那么再去查该节点时，其返回的对象里数据权威null，导致错误
         TbContentCategory category = new TbContentCategory();
         for(Long childId : idList){
             category.setId(childId);
             category.setStatus(2);
-            //count += contentCategoryMapper.updateByPrimaryKeySelective(category);
-            count += contentCategoryMapper.deleteByPrimaryKey(childId);
+            count += contentCategoryMapper.updateByPrimaryKeySelective(category);
+            //count += contentCategoryMapper.deleteByPrimaryKey(childId);
         }
-        //获取该节点的parentId,若其没有子节点则其为子节点
+
+        //获取该节点的parentId,若其parent没有子节点则该parent为子节点
         category = contentCategoryMapper.selectByPrimaryKey(id);
         int childrenCount = contentCategoryMapper.selectChildrenCount(category.getParentId());
         if (childrenCount == 0){
@@ -88,11 +88,17 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
             category.setIsParent(Boolean.FALSE);
             contentCategoryMapper.updateByPrimaryKeySelective(category);
         }
+
+        //最后删除该节点
+        category.setId(id);
+        category.setStatus(2);
+        count += contentCategoryMapper.updateByPrimaryKeySelective(category);
+        //count += contentCategoryMapper.deleteByPrimaryKey(id);
         return TaotaoResult.ok(count);
     }
 
     @Override
-    public TaotaoResult updateContentCategory(Long id, String name) {
+    public TaotaoResult updateContentCategory(Long id, String name) throws Exception {
         TbContentCategory contentCategory = new TbContentCategory();
         contentCategory.setId(id);
         contentCategory.setName(name);
@@ -116,6 +122,7 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
         criteria.andParentIdEqualTo(parentId);
 
         List<TbContentCategory> contentCategoryList = contentCategoryMapper.selectByExample(example);
+        List<Long> idList = new ArrayList<>();
         for(TbContentCategory tb : contentCategoryList){
             idList.add(tb.getId());
             if(tb.getIsParent()){

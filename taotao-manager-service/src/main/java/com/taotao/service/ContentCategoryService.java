@@ -24,7 +24,7 @@ public interface ContentCategoryService {
      * @param name
      * @return
      */
-    TaotaoResult insertContentCategory(Long parentId, String name);
+    TaotaoResult insertContentCategory(Long parentId, String name) throws Exception;
 
     /**
      * 根据id删除节点
@@ -32,7 +32,7 @@ public interface ContentCategoryService {
      * @param id
      * @return
      */
-    TaotaoResult deleteContentCategory(Long parentId, Long id);
+    TaotaoResult deleteContentCategory(Long parentId, Long id) throws Exception;
 
     /**
      * 根据id重命名节点
@@ -40,5 +40,5 @@ public interface ContentCategoryService {
      * @param name
      * @return
      */
-    TaotaoResult updateContentCategory(Long id, String name);
+    TaotaoResult updateContentCategory(Long id, String name) throws Exception;
 }
