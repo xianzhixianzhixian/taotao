@@ -42,33 +42,36 @@ public class ContenServiceImpl implements ContentService {
     }
 
     @Override
-    public TaotaoResult insertContent(TbContent content){
+    public TaotaoResult insertContent(TbContent content) throws Exception {
         //补全pojo内容
         Date date = new Date();
         content.setCreated(date);
         content.setUpdated(date);
-        contentMapper.insertSelective(content);
+        int count = contentMapper.insertSelective(content);
 
         //添加缓存同步逻辑
         try {
-            HttpClientUtil.doGet(REST_BASE_URL + REST_CONTENT_SYNC_URL + content.getCategoryId());
+            HttpClientUtil.doPost(REST_BASE_URL + REST_CONTENT_SYNC_URL + content.getCategoryId());
         }catch (Exception e){
             e.printStackTrace();
         }
-        return TaotaoResult.ok();
+        if (count == 0){
+            return TaotaoResult.build(500,"添加错误");
+        }
+        return TaotaoResult.ok(count);
     }
 
     @Override
-    public TaotaoResult deleteContent(String ids) {
+    public TaotaoResult deleteContent(String ids) throws Exception {
 
         int count = 0;
         List<Long> idList = StrUtil.StringToLongArray(ids,",");
         for(Long id : idList){
-            contentMapper.deleteByPrimaryKey(id);
+            count += contentMapper.deleteByPrimaryKey(id);
             //添加缓存同步逻辑
             try {
                 TbContent content = contentMapper.selectByPrimaryKey(id);
-                HttpClientUtil.doGet(REST_BASE_URL + REST_CONTENT_SYNC_URL + content.getCategoryId());
+                HttpClientUtil.doPost(REST_BASE_URL + REST_CONTENT_SYNC_URL + content.getCategoryId());
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -81,11 +84,11 @@ public class ContenServiceImpl implements ContentService {
     }
 
     @Override
-    public TaotaoResult editContent(TbContent content) {
+    public TaotaoResult editContent(TbContent content) throws Exception {
         int count = contentMapper.updateByPrimaryKeySelective(content);
         //添加缓存同步逻辑
         try {
-            HttpClientUtil.doGet(REST_BASE_URL + REST_CONTENT_SYNC_URL + content.getCategoryId());
+            HttpClientUtil.doPost(REST_BASE_URL + REST_CONTENT_SYNC_URL + content.getCategoryId());
         }catch (Exception e){
             e.printStackTrace();
         }

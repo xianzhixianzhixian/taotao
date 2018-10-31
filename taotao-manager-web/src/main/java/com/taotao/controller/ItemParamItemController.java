@@ -20,7 +20,7 @@ public class ItemParamItemController {
 	
 	@RequestMapping("/showitem/{itemId}")
 	public String showItemParam(@PathVariable Long itemId, Model model) {
-		String string = itemParamItemService.getItemParamByItemId(itemId);
+		String string = itemParamItemService.getItemParamHtmlByItemId(itemId);
 		model.addAttribute("itemParam", string);
 		return "item";
 	}

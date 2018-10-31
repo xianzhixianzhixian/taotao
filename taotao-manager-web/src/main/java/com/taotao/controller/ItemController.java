@@ -2,17 +2,19 @@ package com.taotao.controller;
 
 import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.ExceptionUtil;
+import com.taotao.common.utils.StrUtil;
 import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemDesc;
+import com.taotao.service.ItemDescService;
+import com.taotao.service.ItemParamItemService;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.WebServiceRef;
-
 /**
- * 测试SSM整合的结果的controller
+ * 商品管理controller
  * @author KevinSmith 2017/12/16
  */
 @Controller
@@ -20,6 +22,10 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private ItemParamItemService itemParamItemService;
+    @Autowired
+    private ItemDescService itemDescService;
 
     /*
         @PathVariable将/item/{itemId}中的itemId映射到Long itemId中的itemId
@@ -27,24 +33,97 @@ public class ItemController {
         参中：URL 中的 {xxx} 占位符可以通过@PathVariable("xxx") 绑定到操作
         方法的入参中
      */
-    @RequestMapping("/item/{itemId}")
+    @RequestMapping(value = "/item/{itemId}", method = RequestMethod.GET)
     @ResponseBody
-    public TbItem getItemById(@PathVariable("itemId") Long itemId){
-        TbItem tbItem=itemService.getItemById(itemId);
+    public TbItem getItemById(@PathVariable("itemId") Long itemId) {
+        TbItem tbItem = itemService.getItemById(itemId);
         return tbItem;
     }
 
-    @RequestMapping("/item/list")
+    @RequestMapping(value = "/item/list", method = RequestMethod.GET)
     @ResponseBody
-    public EasyUIDataGridResult getItemList(int page,int rows){
-        EasyUIDataGridResult result=itemService.getItemList(page,rows);
+    public EasyUIDataGridResult getItemList(Integer page,Integer rows) {
+        EasyUIDataGridResult result = itemService.getItemList(page,rows);
+        return result;
+    }
+
+    @RequestMapping(value = "/item/query/item/param/", method = RequestMethod.GET)
+    @ResponseBody
+    public TaotaoResult searchItemParam(Long id){
+        TaotaoResult result = null;
+        try{
+            String paramData = itemParamItemService.getItemParamByItemId(id);
+            result = TaotaoResult.ok(paramData);
+        }catch (Exception e){
+            e.printStackTrace();
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/item/query/item/desc/", method = RequestMethod.GET)
+    @ResponseBody
+    public TaotaoResult searchItemDesc(Long id){
+        TaotaoResult result = null;
+        try{
+            TbItemDesc itemDesc = itemDescService.selectItemDescByItemId(id);
+            result = TaotaoResult.ok(itemDesc);
+        }catch (Exception e){
+            e.printStackTrace();
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
         return result;
     }
 
     @RequestMapping(value="/item/save",method = RequestMethod.POST)
     @ResponseBody
-    private TaotaoResult createItem(TbItem item,String desc,String itemParams) throws Exception{
-        TaotaoResult result=itemService.createItem(item,desc,itemParams);
+    public TaotaoResult createItem(TbItem item,String desc,String itemParams) {
+        TaotaoResult result = null;
+        try {
+            result = itemService.createItem(item, desc, itemParams);
+        }catch (Exception e){
+            e.printStackTrace();
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/item/instock", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult instockItems(String ids){
+        TaotaoResult result = null;
+        try{
+            result = itemService.updateInstockItems(StrUtil.StringToLongArray(ids,","));
+        }catch (Exception e){
+            e.printStackTrace();
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/item/reshelf", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult reshelfItems(String ids){
+        TaotaoResult result = null;
+        try{
+            result = itemService.updateReshelfItems(StrUtil.StringToLongArray(ids,","));
+        }catch (Exception e){
+            e.printStackTrace();
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/item/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult deleteItems(String ids){
+        TaotaoResult result = null;
+        try{
+            result = itemService.deleteItems(StrUtil.StringToLongArray(ids,","));
+        }catch (Exception e){
+            e.printStackTrace();
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
         return result;
     }
 }

@@ -14,6 +14,8 @@ import com.taotao.pojo.TbItemParamItemExample.Criteria;
 import com.taotao.service.ItemParamItemService;
 
 /**
+ * 商品参数管理service
+ * 若检索大字段时，则需要使用selectByExampleWithBLOBs，一般情况则使用selectByExample
  * @author xianzhixianzhixian 2018/10/24
  */
 @Service
@@ -23,7 +25,7 @@ public class ItemParamItemServiceImpl implements ItemParamItemService {
 	private TbItemParamItemMapper itemParamItemMapper;
 	
 	@Override
-	public String getItemParamByItemId(Long itemId) {
+	public String getItemParamHtmlByItemId(Long itemId) {
 		//根据商品id查询规格参数
 		TbItemParamItemExample example = new TbItemParamItemExample();
 		Criteria criteria = example.createCriteria();
@@ -57,6 +59,23 @@ public class ItemParamItemServiceImpl implements ItemParamItemService {
 		sb.append("    </tbody>\n");
 		sb.append("</table>");
 		return sb.toString();
+	}
+
+	@Override
+	public String getItemParamByItemId(Long itemId) {
+		//根据商品id查询规格参数
+		TbItemParamItemExample example = new TbItemParamItemExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andItemIdEqualTo(itemId);
+		//执行查询
+		List<TbItemParamItem> list = itemParamItemMapper.selectByExampleWithBLOBs(example);
+		if (list == null || list.size() == 0) {
+			return "";
+		}
+		//取规格参数信息
+		TbItemParamItem itemParamItem = list.get(0);
+		String paramData = itemParamItem.getParamData();
+		return paramData;
 	}
 
 }

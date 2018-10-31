@@ -2,6 +2,7 @@ package com.taotao.controller;
 
 import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.ExceptionUtil;
 import com.taotao.pojo.TbContent;
 import com.taotao.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,18 +38,33 @@ public class ContentController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public TaotaoResult saveContent(TbContent content){
-        return contentService.insertContent(content);
+        try {
+            return contentService.insertContent(content);
+        }catch (Exception e){
+            e.printStackTrace();
+            return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
     public TaotaoResult editContent(TbContent content){
-        return contentService.editContent(content);
+        try {
+            return contentService.editContent(content);
+        }catch (Exception e){
+            e.printStackTrace();
+            return TaotaoResult.build(500,ExceptionUtil.getStackTrace(e));
+        }
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public TaotaoResult deleteContent(String ids){
-        return contentService.deleteContent(ids);
+        try {
+            return contentService.deleteContent(ids);
+        }catch (Exception e){
+            e.printStackTrace();
+            return TaotaoResult.build(500,ExceptionUtil.getStackTrace(e));
+        }
     }
 }

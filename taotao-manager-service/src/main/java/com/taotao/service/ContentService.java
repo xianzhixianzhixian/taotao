@@ -23,19 +23,19 @@ public interface ContentService {
      * @param content
      * @return
      */
-    TaotaoResult insertContent(TbContent content);
+    TaotaoResult insertContent(TbContent content) throws Exception;
 
     /**
      * 根据id删除内容分类包含的具体信息
      * @param ids
      * @return
      */
-    TaotaoResult deleteContent(String ids);
+    TaotaoResult deleteContent(String ids) throws Exception;
 
     /**
      * 修改content内容
      * @param content
      * @return
      */
-    TaotaoResult editContent(TbContent content);
+    TaotaoResult editContent(TbContent content) throws Exception;
 }

@@ -19,7 +19,8 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- 通知 -->
+    <!-- 事务 -->
+    <!-- 当程序抛出异常时，spring会自动回滚，用@Transactional或xml文件配置的形式来支持事务，事务对service层起作用 -->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="save*" propagation="REQUIRED"/>

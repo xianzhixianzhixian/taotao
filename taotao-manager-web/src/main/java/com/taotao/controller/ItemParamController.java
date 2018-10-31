@@ -1,9 +1,13 @@
 package com.taotao.controller;
 
+import com.taotao.common.pojo.EasyUIDataGridResult;
+import com.taotao.common.utils.ExceptionUtil;
+import com.taotao.common.utils.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taotao.common.pojo.TaotaoResult;
@@ -32,10 +36,33 @@ public class ItemParamController {
 	@ResponseBody
 	public TaotaoResult insertItemParam(@PathVariable Long cid, String paramData) {
 		//创建pojo对象
-		TbItemParam itemParam = new TbItemParam();
-		itemParam.setItemCatId(cid);
-		itemParam.setParamData(paramData);
-		TaotaoResult result = itemParamService.insertItemParam(itemParam);
-		return result;
+        try {
+            TbItemParam itemParam = new TbItemParam();
+            itemParam.setItemCatId(cid);
+            itemParam.setParamData(paramData);
+            TaotaoResult result = itemParamService.insertItemParam(itemParam);
+            return result;
+        }catch (Exception e){
+            return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
 	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public EasyUIDataGridResult listAllItemParam(Integer page,Integer rows){
+	    EasyUIDataGridResult result = itemParamService.selectItemParamList(page, rows);
+	    return result;
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult deleteItemParams(String ids){
+	    TaotaoResult result =null;
+	    try{
+	        result = itemParamService.deleteItemParamsByIds(StrUtil.StringToLongArray(ids, ","));
+        }catch (Exception e){
+	        result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+	    return result;
+    }
 }

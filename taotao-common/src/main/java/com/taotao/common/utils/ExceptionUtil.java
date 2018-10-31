@@ -5,9 +5,8 @@ import java.io.StringWriter;
 
 public class ExceptionUtil {
 
-	/**
+    /**
 	 * 获取异常的堆栈信息
-	 * 
 	 * @param t
 	 * @return
 	 */

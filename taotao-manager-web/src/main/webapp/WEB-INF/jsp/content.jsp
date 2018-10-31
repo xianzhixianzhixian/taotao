@@ -65,7 +65,7 @@ var contentListToolbar = [{
     		return ;
     	}
 		TT.createWindow({
-			url : "/content-edit",
+			url : "/content-edit",  //这里用到了PageController返回的是content-edit.jsp的视图
 			onLoad : function(){
 				var data = $("#contentList").datagrid("getSelections")[0];
 				$("#contentEditForm").form("load",data);

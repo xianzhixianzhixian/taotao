@@ -6,6 +6,7 @@
     <result column="item_cat_id" property="itemCatId" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="param_data" property="paramData" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.taotao.pojo.TbItemParam" extends="BaseResultMap" >
     <result column="param_data" property="paramData" jdbcType="LONGVARCHAR" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, item_cat_id, created, updated
+    id, item_cat_id, created, updated, param_data
   </sql>
   <sql id="Blob_Column_List" >
     param_data

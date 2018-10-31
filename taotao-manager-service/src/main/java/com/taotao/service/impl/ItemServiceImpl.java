@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.ExceptionUtil;
+import com.taotao.common.utils.HttpClientUtil;
 import com.taotao.common.utils.IDUtils;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemParamItemMapper;
@@ -14,6 +16,7 @@ import com.taotao.mapper.TbItemMapper;
 import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,12 +31,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private TbItemMapper tbItemMapper;
-
     @Autowired
     private TbItemDescMapper tbItemDescMapper;
-
     @Autowired
     private TbItemParamItemMapper itemParamItemMapper;
+    @Value("${REST_BASE_URL}")
+    private String REST_BASE_URL;
+    @Value("${REST_ITEM_SYNC_URL}")
+    private String REST_ITEM_SYNC_URL;
 
     @Override
     public TbItem getItemById(Long id) {
@@ -108,17 +113,94 @@ public class ItemServiceImpl implements ItemService {
         return TaotaoResult.ok();
     }
 
+    @Override
+    public TaotaoResult selectItemDesc(Long itemId) {
+        return null;
+    }
+
+    @Override
+    public TaotaoResult selectItemParam(Long itemId) {
+        return null;
+    }
+
+    @Override
+    public TaotaoResult deleteItems(List<Long> ids) throws Exception {
+        int count = 0;
+        TbItem item = new TbItem();
+        for (Long id : ids) {
+            item.setId(id);
+            item.setStatus(new Byte("3"));
+            count += tbItemMapper.updateByPrimaryKeySelective(item);
+            //缓存同步逻辑
+            try {
+                HttpClientUtil.doPost(REST_BASE_URL+REST_ITEM_SYNC_URL+id);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if (count == 0){
+            return TaotaoResult.build(500, "删除商品错误");
+        }
+        return TaotaoResult.ok();
+    }
+
+    @Override
+    public TaotaoResult updateInstockItems(List<Long> ids) throws Exception {
+        int count = 0;
+        TbItem item = new TbItem();
+        for (Long id : ids) {
+            item.setId(id);
+            item.setStatus(new Byte("2"));
+            count += tbItemMapper.updateByPrimaryKeySelective(item);
+            //缓存同步逻辑
+            try {
+                HttpClientUtil.doPost(REST_BASE_URL+REST_ITEM_SYNC_URL+id);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if (count == 0){
+            return TaotaoResult.build(500, "下架商品错误");
+        }
+        return TaotaoResult.ok();
+    }
+
+    @Override
+    public TaotaoResult updateReshelfItems(List<Long> ids) throws Exception {
+        int count = 0;
+        TbItem item = new TbItem();
+        for (Long id : ids) {
+            item.setId(id);
+            item.setStatus(new Byte("1"));
+            count += tbItemMapper.updateByPrimaryKeySelective(item);
+            //缓存同步逻辑
+            try {
+                HttpClientUtil.doPost(REST_BASE_URL+REST_ITEM_SYNC_URL+id);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if (count == 0){
+            return TaotaoResult.build(500, "上架商品错误");
+        }
+        return TaotaoResult.ok();
+    }
+
     /**
-     *
+     * 插入商品描述
      * @param description
      */
-    private TaotaoResult insertItemDescription(Long itemId,String description){
+    private TaotaoResult insertItemDescription(Long itemId,String description) throws Exception {
         TbItemDesc itemDesc=new TbItemDesc();
         itemDesc.setItemId(itemId);
         itemDesc.setItemDesc(description);
         itemDesc.setCreated(new Date());
         itemDesc.setUpdated(new Date());
-        tbItemDescMapper.insert(itemDesc);
+        try{
+            tbItemDescMapper.insert(itemDesc);
+        }catch (Exception e){
+            return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
         return TaotaoResult.ok();
     }
 
@@ -128,7 +210,7 @@ public class ItemServiceImpl implements ItemService {
      * @param itemParam
      * @return
      */
-    private TaotaoResult insertItemParam(Long itemId,String itemParam){
+    private TaotaoResult insertItemParam(Long itemId,String itemParam) throws Exception {
         //创建一个pojo
         TbItemParamItem tbItemParamItem=new TbItemParamItem();
         tbItemParamItem.setItemId(itemId);
@@ -136,7 +218,11 @@ public class ItemServiceImpl implements ItemService {
         tbItemParamItem.setCreated(new Date());
         tbItemParamItem.setUpdated(new Date());
         //向表中插入数据
-        itemParamItemMapper.insert(tbItemParamItem);
+        try {
+            itemParamItemMapper.insert(tbItemParamItem);
+        }catch (Exception e){
+            return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
         return TaotaoResult.ok();
     }
 }

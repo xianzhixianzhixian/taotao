@@ -17,7 +17,8 @@
         </tr>
     </thead>
 </table>
-<div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'/rest/page/item-edit'" style="width:80%;height:80%;padding:10px;">
+<!-- href:'/item-edit'用到的是PageController，返回item-edit的jsp视图 -->
+<div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'/item-edit'" style="width:80%;height:80%;padding:10px;">
 </div>
 <script>
 
@@ -60,7 +61,7 @@
         			$("#itemeEditForm").form("load",data);
         			
         			// 加载商品描述
-        			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
+        			$.getJ2SON('/item/query/item/desc/'+data.id,function(_data){
         				if(_data.status == 200){
         					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
         					itemEditEditor.html(_data.data.itemDesc);
@@ -68,7 +69,7 @@
         			});
         			
         			//加载商品规格
-        			$.getJSON('/rest/item/param/item/query/'+data.id,function(_data){
+        			$.getJSON('/item/query/item/param/'+data.id,function(_data){
         				if(_data && _data.status == 200 && _data.data && _data.data.paramData){
         					$("#itemeEditForm .params").show();
         					$("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
@@ -117,12 +118,16 @@
         	$.messager.confirm('确认','确定删除ID为 '+ids+' 的商品吗？',function(r){
         	    if (r){
         	    	var params = {"ids":ids};
-                	$.post("/rest/item/delete",params, function(data){
+                	$.post("/item/delete",params, function(data){
             			if(data.status == 200){
             				$.messager.alert('提示','删除商品成功!',undefined,function(){
             					$("#itemList").datagrid("reload");
             				});
-            			}
+            			}else{
+                            $.messager.alert('提示','删除商品未成功!',undefined,function(){
+                                $("#itemList").datagrid("reload");
+                            });
+                        }
             		});
         	    }
         	});
@@ -139,12 +144,16 @@
         	$.messager.confirm('确认','确定下架ID为 '+ids+' 的商品吗？',function(r){
         	    if (r){
         	    	var params = {"ids":ids};
-                	$.post("/rest/item/instock",params, function(data){
+                	$.post("/item/instock",params, function(data){
             			if(data.status == 200){
             				$.messager.alert('提示','下架商品成功!',undefined,function(){
             					$("#itemList").datagrid("reload");
             				});
-            			}
+            			}else{
+                            $.messager.alert('提示','下架商品未成功!',undefined,function(){
+                                $("#itemList").datagrid("reload");
+                            });
+                        }
             		});
         	    }
         	});
@@ -161,12 +170,16 @@
         	$.messager.confirm('确认','确定上架ID为 '+ids+' 的商品吗？',function(r){
         	    if (r){
         	    	var params = {"ids":ids};
-                	$.post("/rest/item/reshelf",params, function(data){
+                	$.post("/item/reshelf",params, function(data){
             			if(data.status == 200){
             				$.messager.alert('提示','上架商品成功!',undefined,function(){
             					$("#itemList").datagrid("reload");
             				});
-            			}
+            			}else{
+                            $.messager.alert('提示','上架商品未成功!',undefined,function(){
+                                $("#itemList").datagrid("reload");
+                            });
+                        }
             		});
         	    }
         	});

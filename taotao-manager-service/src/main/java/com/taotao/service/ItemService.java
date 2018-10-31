@@ -4,8 +4,10 @@ import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.pojo.TbItem;
 
+import java.util.List;
+
 /**
- * 测试SSM整合结果
+ * 商品管理service
  * @author 樊钰丰 2017/12/16
  */
 public interface ItemService {
@@ -32,4 +34,39 @@ public interface ItemService {
      * @return
      */
     TaotaoResult createItem(TbItem item,String description,String itemParam) throws Exception;
+
+    /**
+     * 通过商品id查询商品描述信息
+     * @param itemId
+     * @return
+     */
+    TaotaoResult selectItemDesc(Long itemId);
+
+    /**
+     * 通过商品id查询商品参数信息
+     * @param itemId
+     * @return
+     */
+    TaotaoResult selectItemParam(Long itemId);
+
+    /**
+     * 通过商品id删除商品信息
+     * @param ids
+     * @return
+     */
+    TaotaoResult deleteItems(List<Long> ids) throws Exception;
+
+    /**
+     * 通过商品id下架商品
+     * @param ids
+     * @return
+     */
+    TaotaoResult updateInstockItems(List<Long> ids) throws Exception;
+
+    /**
+     * 通过商品id上架商品
+     * @param ids
+     * @return
+     */
+    TaotaoResult updateReshelfItems(List<Long> ids) throws Exception;
 }

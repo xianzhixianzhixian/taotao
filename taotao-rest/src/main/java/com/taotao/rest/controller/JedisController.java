@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -19,16 +20,16 @@ public class JedisController {
     @Autowired
     private RedisService redisService;
 
-    @RequestMapping("/content/{contentCid}")
+    @RequestMapping(value = "/content/{contentCid}", method = RequestMethod.POST)
     @ResponseBody
     public TaotaoResult contentCacheSync(@PathVariable Long contentCid){
         TaotaoResult result = redisService.syncContent(contentCid);
         return result;
     }
 
-    @RequestMapping("/item/{itemId}")
+    @RequestMapping(value = "/item/{itemId}", method = RequestMethod.POST)
     @ResponseBody
-    public TaotaoResult itemCacheSync(@PathVariable("itemIs") Long itemId){
+    public TaotaoResult itemCacheSync(@PathVariable("itemId") Long itemId){
         TaotaoResult result = redisService.syncItem(itemId);
         return result;
     }

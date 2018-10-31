@@ -7,9 +7,16 @@ package com.taotao.service;
 public interface ItemParamItemService {
 
     /**
-     * 获取商品参数信息
+     * 获取商品参数信息，返回html代码段
      * @param itemId
      * @return
      */
-	String getItemParamByItemId(Long itemId);
+	String getItemParamHtmlByItemId(Long itemId);
+
+    /**
+     * 获取商品参数信息，返回html代码段
+     * @param itemId
+     * @return
+     */
+    String getItemParamByItemId(Long itemId);
 }
