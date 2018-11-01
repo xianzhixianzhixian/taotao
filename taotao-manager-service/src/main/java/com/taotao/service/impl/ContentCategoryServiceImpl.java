@@ -76,6 +76,7 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
         for(Long childId : idList){
             category.setId(childId);
             category.setStatus(2);
+            category.setUpdated(new Date());
             count += contentCategoryMapper.updateByPrimaryKeySelective(category);
             //count += contentCategoryMapper.deleteByPrimaryKey(childId);
         }
@@ -86,12 +87,14 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
         if (childrenCount == 0){
             category.setId(parentId);
             category.setIsParent(Boolean.FALSE);
+            category.setUpdated(new Date());
             contentCategoryMapper.updateByPrimaryKeySelective(category);
         }
 
         //最后删除该节点
         category.setId(id);
         category.setStatus(2);
+        category.setUpdated(new Date());
         count += contentCategoryMapper.updateByPrimaryKeySelective(category);
         //count += contentCategoryMapper.deleteByPrimaryKey(id);
         return TaotaoResult.ok(count);
@@ -102,6 +105,7 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
         TbContentCategory contentCategory = new TbContentCategory();
         contentCategory.setId(id);
         contentCategory.setName(name);
+        contentCategory.setUpdated(new Date());
         int count = contentCategoryMapper.updateByPrimaryKeySelective(contentCategory);
         if(count > 0){
             return TaotaoResult.ok(count);

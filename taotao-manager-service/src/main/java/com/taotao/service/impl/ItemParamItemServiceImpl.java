@@ -3,6 +3,7 @@ package com.taotao.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.taotao.common.pojo.TaotaoResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +63,7 @@ public class ItemParamItemServiceImpl implements ItemParamItemService {
 	}
 
 	@Override
-	public String getItemParamByItemId(Long itemId) {
+	public TaotaoResult getItemParamByItemId(Long itemId) {
 		//根据商品id查询规格参数
 		TbItemParamItemExample example = new TbItemParamItemExample();
 		Criteria criteria = example.createCriteria();
@@ -70,12 +71,11 @@ public class ItemParamItemServiceImpl implements ItemParamItemService {
 		//执行查询
 		List<TbItemParamItem> list = itemParamItemMapper.selectByExampleWithBLOBs(example);
 		if (list == null || list.size() == 0) {
-			return "";
+			TaotaoResult.build(400, "未找到商品参数信息");
 		}
 		//取规格参数信息
 		TbItemParamItem itemParamItem = list.get(0);
-		String paramData = itemParamItem.getParamData();
-		return paramData;
+		return TaotaoResult.ok(itemParamItem);
 	}
 
 }

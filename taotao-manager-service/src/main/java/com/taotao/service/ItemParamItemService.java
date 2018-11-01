@@ -1,5 +1,7 @@
 package com.taotao.service;
 
+import com.taotao.common.pojo.TaotaoResult;
+
 /**
  * 展示商品规格参数service
  * @author xianzhixianzhixian 2018/10/24
@@ -18,5 +20,5 @@ public interface ItemParamItemService {
      * @param itemId
      * @return
      */
-    String getItemParamByItemId(Long itemId);
+    TaotaoResult getItemParamByItemId(Long itemId);
 }

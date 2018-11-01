@@ -85,6 +85,7 @@ public class ContenServiceImpl implements ContentService {
 
     @Override
     public TaotaoResult editContent(TbContent content) throws Exception {
+        content.setUpdated(new Date());
         int count = contentMapper.updateByPrimaryKeySelective(content);
         //添加缓存同步逻辑
         try {

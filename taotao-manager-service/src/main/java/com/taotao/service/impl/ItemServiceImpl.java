@@ -114,22 +114,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public TaotaoResult selectItemDesc(Long itemId) {
-        return null;
-    }
-
-    @Override
-    public TaotaoResult selectItemParam(Long itemId) {
-        return null;
-    }
-
-    @Override
     public TaotaoResult deleteItems(List<Long> ids) throws Exception {
         int count = 0;
         TbItem item = new TbItem();
         for (Long id : ids) {
             item.setId(id);
             item.setStatus(new Byte("3"));
+            item.setUpdated(new Date());
             count += tbItemMapper.updateByPrimaryKeySelective(item);
             //缓存同步逻辑
             try {
@@ -151,6 +142,7 @@ public class ItemServiceImpl implements ItemService {
         for (Long id : ids) {
             item.setId(id);
             item.setStatus(new Byte("2"));
+            item.setUpdated(new Date());
             count += tbItemMapper.updateByPrimaryKeySelective(item);
             //缓存同步逻辑
             try {
@@ -172,6 +164,7 @@ public class ItemServiceImpl implements ItemService {
         for (Long id : ids) {
             item.setId(id);
             item.setStatus(new Byte("1"));
+            item.setUpdated(new Date());
             count += tbItemMapper.updateByPrimaryKeySelective(item);
             //缓存同步逻辑
             try {
@@ -184,6 +177,38 @@ public class ItemServiceImpl implements ItemService {
             return TaotaoResult.build(500, "上架商品错误");
         }
         return TaotaoResult.ok();
+    }
+
+    @Override
+    public TaotaoResult updateItem(TbItem item, String desc, String itemParams, Long itemParamItemId) throws Exception {
+        Long itemId = item.getId();
+        int count = 0;
+
+        item.setUpdated(new Date());
+        count += tbItemMapper.updateByPrimaryKeySelective(item);
+
+        TbItemDesc itemDesc = new TbItemDesc();
+        itemDesc.setItemId(itemId);
+        itemDesc.setItemDesc(desc);
+        itemDesc.setUpdated(new Date());
+        count += tbItemDescMapper.updateByPrimaryKeySelective(itemDesc);
+
+        TbItemParamItem itemParamItem = new TbItemParamItem();
+        itemParamItem.setId(itemParamItemId);
+        itemParamItem.setParamData(itemParams);
+        itemParamItem.setUpdated(new Date());
+        count += itemParamItemMapper.updateByPrimaryKeySelective(itemParamItem);
+
+        //缓存同步逻辑
+        try {
+            HttpClientUtil.doPost(REST_BASE_URL+REST_ITEM_SYNC_URL+itemId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if (count == 0){
+            return TaotaoResult.build(500, "更新商品信息错误");
+        }
+        return TaotaoResult.ok(count);
     }
 
     /**

@@ -61,7 +61,7 @@
         			$("#itemeEditForm").form("load",data);
         			
         			// 加载商品描述
-        			$.getJ2SON('/item/query/item/desc/'+data.id,function(_data){
+        			$.getJSON('/item/query/item/desc/'+data.id,function(_data){
         				if(_data.status == 200){
         					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
         					itemEditEditor.html(_data.data.itemDesc);
@@ -77,7 +77,6 @@
         					
         					//回显商品规格
         					 var paramData = JSON.parse(_data.data.paramData);
-        					
         					 var html = "<ul>";
         					 for(var i in paramData){
         						 var pd = paramData[i];

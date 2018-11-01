@@ -36,20 +36,6 @@ public interface ItemService {
     TaotaoResult createItem(TbItem item,String description,String itemParam) throws Exception;
 
     /**
-     * 通过商品id查询商品描述信息
-     * @param itemId
-     * @return
-     */
-    TaotaoResult selectItemDesc(Long itemId);
-
-    /**
-     * 通过商品id查询商品参数信息
-     * @param itemId
-     * @return
-     */
-    TaotaoResult selectItemParam(Long itemId);
-
-    /**
      * 通过商品id删除商品信息
      * @param ids
      * @return
@@ -69,4 +55,14 @@ public interface ItemService {
      * @return
      */
     TaotaoResult updateReshelfItems(List<Long> ids) throws Exception;
+
+    /**
+     * 更新商品信息
+     * @param item
+     * @param desc
+     * @param itemParams
+     * @param itemParamItemId
+     * @return
+     */
+    TaotaoResult updateItem(TbItem item, String desc, String itemParams, Long itemParamItemId) throws Exception;
 }

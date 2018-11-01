@@ -47,13 +47,12 @@ public class ItemController {
         return result;
     }
 
-    @RequestMapping(value = "/item/query/item/param/", method = RequestMethod.GET)
+    @RequestMapping(value = "/item/query/item/param/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public TaotaoResult searchItemParam(Long id){
+    public TaotaoResult searchItemParam(@PathVariable("id") Long id){
         TaotaoResult result = null;
         try{
-            String paramData = itemParamItemService.getItemParamByItemId(id);
-            result = TaotaoResult.ok(paramData);
+            result = itemParamItemService.getItemParamByItemId(id);
         }catch (Exception e){
             e.printStackTrace();
             result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
@@ -61,9 +60,9 @@ public class ItemController {
         return result;
     }
 
-    @RequestMapping(value = "/item/query/item/desc/", method = RequestMethod.GET)
+    @RequestMapping(value = "/item/query/item/desc/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public TaotaoResult searchItemDesc(Long id){
+    public TaotaoResult searchItemDesc(@PathVariable("id") Long id){
         TaotaoResult result = null;
         try{
             TbItemDesc itemDesc = itemDescService.selectItemDescByItemId(id);
@@ -120,6 +119,19 @@ public class ItemController {
         TaotaoResult result = null;
         try{
             result = itemService.deleteItems(StrUtil.StringToLongArray(ids,","));
+        }catch (Exception e){
+            e.printStackTrace();
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/item/update", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult updateItem(TbItem item, String desc, String itemParams, Long itemParamId){
+        TaotaoResult result = null;
+        try{
+            result = itemService.updateItem(item, desc, itemParams, itemParamId);
         }catch (Exception e){
             e.printStackTrace();
             result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
