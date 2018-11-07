@@ -22,7 +22,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    TaotaoResult createUser(TbUser user);
+    TaotaoResult createUser(TbUser user) throws Exception;
 
     /**
      * 用户登录
@@ -38,4 +38,11 @@ public interface UserService {
      * @return
      */
     TaotaoResult getUserByToken(String token);
+
+    /**
+     * 退出登录
+     * @param token
+     * @return
+     */
+    TaotaoResult userLogout(String token);
 }

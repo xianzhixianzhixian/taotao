@@ -104,4 +104,16 @@ public class UserController {
             return result;
         }
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult userLogin(String token){
+        TaotaoResult result = null;
+        try{
+            result = userService.userLogout(token);
+        }catch (Exception e){
+            result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
+        return result;
+    }
 }

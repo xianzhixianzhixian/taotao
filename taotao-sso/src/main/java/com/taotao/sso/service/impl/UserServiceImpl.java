@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TaotaoResult createUser(TbUser user) {
+    public TaotaoResult createUser(TbUser user) throws Exception {
         Date date = new Date();
         user.setUpdated(date);
         user.setCreated(date);
@@ -102,5 +102,16 @@ public class UserServiceImpl implements UserService {
         jedisClient.expire(RESID_USER_SESSION+":"+token, SSO_SESSION_EXPIRE);
         //返回用户信息
         return TaotaoResult.ok(JsonUtils.jsonToPojo(json, TbUser.class));
+    }
+
+    @Override
+    public TaotaoResult userLogout(String token) {
+        try{
+            jedisClient.del(RESID_USER_SESSION+":"+token);
+        }catch (Exception e){
+            e.printStackTrace();
+            return TaotaoResult.build(500,ExceptionUtil.getStackTrace(e));
+        }
+        return TaotaoResult.ok();
     }
 }
