@@ -148,12 +148,14 @@
 		beforeSubmit:function() {
 				//检查用户是否已经被占用
 				$.ajax({
-	            	url : REGISTER.param.surl + "/user/check/"+escape($("#regName").val())+"/1?r=" + Math.random(),
+	            	url : REGISTER.param.surl + "/user/check/"+$("#regName").val()+"/1?r=" + Math.random(),
+                    method: 'GET',
 	            	success : function(data) {
 	            		if (data.data) {
 	            			//检查手机号是否存在
 	            			$.ajax({
 	            				url : REGISTER.param.surl + "/user/check/"+$("#phone").val()+"/2?r=" + Math.random(),
+                                method: 'GET',
 				            	success : function(data) {
 				            		if (data.data) {
 					            		REGISTER.doSubmit();
@@ -182,7 +184,7 @@
 			});
 		},
 		login:function() {
-			 location.href = "/user/showLogin";
+			 //location.href = "/user/showLogin";
 			 return false;
 		},
 		reg:function() {

@@ -49,6 +49,6 @@
   <servlet-mapping>
     <servlet-name>taotao-sso</servlet-name>
     <!-- 对于有jsp页面展示的工程，用/作为请求路径；当路径为/时，需要配置js和jsp等静态资源的资源映射 -->
-    <url-pattern>/sso/</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 </web-app>

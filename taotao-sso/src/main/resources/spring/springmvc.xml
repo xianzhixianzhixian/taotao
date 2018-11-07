@@ -25,4 +25,5 @@
 	<!-- 资源映射 -->
 	<mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
 	<mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
+    <mvc:resources mapping="/images/**" location="/WEB-INF/images/"/>
 </beans>
