@@ -112,9 +112,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TaotaoResult userLogout(String token) {
+    public TaotaoResult userLogout(String token, HttpServletRequest request, HttpServletResponse response) {
         try{
             jedisClient.del(RESID_USER_SESSION+":"+token);
+            CookieUtils.deleteCookie(request, response, SSO_USER_COOKIE_NAME);
         }catch (Exception e){
             e.printStackTrace();
             return TaotaoResult.build(500,ExceptionUtil.getStackTrace(e));
