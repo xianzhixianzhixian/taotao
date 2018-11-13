@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 用户管理controller
  * @author: xianzhixianzhixian on 2018/10/28
@@ -77,10 +80,10 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public TaotaoResult userLogin(String username,String password){
+    public TaotaoResult userLogin(String username, String password, HttpServletRequest request, HttpServletResponse response){
         TaotaoResult result = null;
         try{
-            result = userService.userLogin(username,password);
+            result = userService.userLogin(username,password,request,response);
         }catch (Exception e){
             result = TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
         }

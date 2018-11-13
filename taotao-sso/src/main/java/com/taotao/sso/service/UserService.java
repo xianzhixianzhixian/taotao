@@ -3,6 +3,9 @@ package com.taotao.sso.service;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.pojo.TbUser;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 用户管理service
  * @author: xianzhixianzhixian on 2018/10/28
@@ -30,7 +33,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    TaotaoResult userLogin(String username,String password);
+    TaotaoResult userLogin(String username, String password, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 通过token获取用户信息

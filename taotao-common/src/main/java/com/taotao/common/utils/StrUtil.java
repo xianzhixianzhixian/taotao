@@ -7,7 +7,7 @@ import java.util.List;
  * 处理字符串的工具
  * @author: xianzhixianzhixian on 2018/8/20
  */
-public class StrUtil {
+public final class StrUtil {
 
     /**
      * 从字符串中获取Long类型数组

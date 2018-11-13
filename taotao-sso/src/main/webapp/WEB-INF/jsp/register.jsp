@@ -184,7 +184,7 @@
 			});
 		},
 		login:function() {
-			 //location.href = "/user/showLogin";
+			 location.href = "/page/login";
 			 return false;
 		},
 		reg:function() {

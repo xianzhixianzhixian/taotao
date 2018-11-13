@@ -3,7 +3,7 @@ package com.taotao.common.utils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class ExceptionUtil {
+public final class ExceptionUtil {
 
     /**
 	 * 获取异常的堆栈信息

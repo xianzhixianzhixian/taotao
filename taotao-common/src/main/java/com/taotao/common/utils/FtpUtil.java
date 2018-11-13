@@ -17,7 +17,7 @@ import org.apache.commons.net.ftp.FTPReply;
  * ftp上传下载工具类
  * @author 樊钰丰 2017/12/20
  */
-public class FtpUtil {
+public final class FtpUtil {
 
 	/** 
 	 * Description: 向FTP服务器上传文件 
