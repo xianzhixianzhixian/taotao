@@ -22,8 +22,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Value("${REST_BASE_URL}")
     private String REST_BASE_URL;
-    @Value("${ITME_INFO_URL}")
-    private String ITME_INFO_URL;
+    @Value("${ITEM_INFO_URL}")
+    private String ITEM_INFO_URL;
     @Value("${ITEM_DESC_URL}")
     private String ITEM_DESC_URL;
     @Value("${ITEM_PARAM_URL}")
@@ -32,7 +32,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemInfo searchItemBaseInfo(Long itemId) {
         try {
-            String json = HttpClientUtil.doGet(REST_BASE_URL + ITME_INFO_URL + itemId);
+            String json = HttpClientUtil.doGet(REST_BASE_URL + ITEM_INFO_URL + itemId);
             if(!StrUtil.testTrimEmpty(json)){
                 TaotaoResult result = TaotaoResult.formatToPojo(json, ItemInfo.class);
                 if(result.getStatus() == 200){
