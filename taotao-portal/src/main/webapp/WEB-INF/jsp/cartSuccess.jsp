@@ -11,8 +11,7 @@
 
 <link rel="stylesheet" type="text/css"
 	href="/css/base.css">
-<link href="/css/initcart20150123.css" type="text/css"
-	rel="stylesheet">
+<link href="/css/initcart20150123.css" type="text/css" rel="stylesheet">
 <title>商品已成功加入购物车</title>
 <style id="style-1-cropbar-clipper">
 /* Copyright 2014 Evernote Corporation. All rights reserved. */
@@ -33,7 +32,6 @@
 <body class="root61">
 
     <jsp:include page="commons/header.jsp" />
-	<!--main start-->
 	<div class="w main">
 		<div class="left">
 			<div class="m" id="succeed">
@@ -59,7 +57,5 @@
 		</div>
 	</div>
    <jsp:include page="commons/footer.jsp" />
-
-
 </body>
 </html>

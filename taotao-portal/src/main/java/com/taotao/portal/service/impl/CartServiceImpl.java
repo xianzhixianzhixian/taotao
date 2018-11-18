@@ -37,7 +37,7 @@ public class CartServiceImpl implements CartService {
         List<CartItem> list = getCartItemList(request);
         //判断购物车中是否存在商品
         for (CartItem item : list){
-            if (item.getId() == itemId){
+            if (item.getId().longValue() == itemId.longValue()){
                 cartItem = item;
                 cartItem.setNum(cartItem.getNum()+num);
                 break;
@@ -61,6 +61,42 @@ public class CartServiceImpl implements CartService {
             list.add(cartItem);
         }
         CookieUtils.setCookie(request, response, CART_COOKIE_KEY, JsonUtils.objectToJson(list), true);
+        return TaotaoResult.ok();
+    }
+
+    @Override
+    public List<CartItem> getAllCartItems(HttpServletRequest request, HttpServletResponse response) {
+        List<CartItem> itemList = getCartItemList(request);
+        return itemList;
+    }
+
+    @Override
+    public TaotaoResult deleteCartItem(Long itemId, HttpServletRequest request, HttpServletResponse response) {
+        List<CartItem> itemList = getCartItemList(request);
+        //从列表中找到此商品
+        for (CartItem cartItem : itemList){
+            if (cartItem.getId().longValue() == itemId.longValue()){
+                itemList.remove(cartItem);
+                break;
+            }
+        }
+        //购物车商品列表重新写入Cookie
+        CookieUtils.setCookie(request, response, CART_COOKIE_KEY, JsonUtils.objectToJson(itemList), true);
+        return TaotaoResult.ok();
+    }
+
+    @Override
+    public TaotaoResult updateCartItem(Long itemId, Integer num, HttpServletRequest request, HttpServletResponse response) {
+        List<CartItem> itemList = getCartItemList(request);
+        //从列表中找到此商品
+        for (CartItem cartItem : itemList){
+            if (cartItem.getId().longValue() == itemId.longValue()){
+                cartItem.setNum(num);
+                break;
+            }
+        }
+        //购物车商品列表重新写入Cookie
+        CookieUtils.setCookie(request, response, CART_COOKIE_KEY, JsonUtils.objectToJson(itemList), true);
         return TaotaoResult.ok();
     }
 
